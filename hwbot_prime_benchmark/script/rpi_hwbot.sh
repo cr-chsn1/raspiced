@@ -20,10 +20,10 @@ printf "\n${color_yellow}Raspberry Pi Model (/sys/firmware/devicetree/base/model
 cat /sys/firmware/devicetree/base/model && echo
 printf "\n${color_yellow}ID-String (/proc/device-tree/compatible)::${color_reset}\n\n"
 cat /proc/device-tree/compatible && echo
-printf "\n${color_yellow}SoC-frequency:${color_reset}\n\n"
+printf "\n${color_yellow}ARM-frequency:${color_reset}\n\n"
 vcgencmd measure_clock arm
-printf "\n${color_yellow}VDD_CORE:${color_reset}\n\n"
-vcgencmd measure_volts core
+printf "\n${color_yellow}Voltages (arm/sdram)${color_reset}\n\n"
+vcgencmd measure_volts core && vcgencmd measure_volts sdram_c
 printf "\n${color_yellow}Temperature:${color_reset}\n\n"
 vcgencmd measure_temp
 echo
