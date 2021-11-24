@@ -106,7 +106,7 @@ printf "${color_cyan}#########################################${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
 printf "${color_cyan}#  HWBOT Prime Script for Raspberry Pi  #${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
-printf "${color_cyan}# by cr_chsn1               Version 2.6 #${color_reset}\n"
+printf "${color_cyan}# by cr_chsn1               Version 2.7 #${color_reset}\n"
 printf "${color_cyan}#########################################${color_reset}\n"
 echo
 
@@ -140,6 +140,11 @@ firmware_date=${firmware_date:0:20}
 firmware_version=$(vcgencmd version  | grep "version")
 firmware_version=${firmware_version:8:40}
 echo "Operating system......... "$os_name $os_version "("$os_codename")"
+if [ "$arch" = "aarch64" ]; then
+	echo "Architecture............. 64-bit"
+else
+	echo "Architecture............. 32-bit"
+fi
 echo "Firmware................. "$firmware_version "("$firmware_date")"
 echo
 printf "${color_green}Linux-Kernel:${color_reset}\n"
