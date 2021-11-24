@@ -1,6 +1,10 @@
 #!/bin/bash
 clear
 
+# Script gets to know itself (plus SHA256-hashing)
+script_file="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+script_sha256=$(sha256sum $script_file | cut -c 1-64)
+
 # Bash coloring
 color_reset='\033[0m'
 color_cyan='\033[0;36m'
@@ -126,25 +130,40 @@ printf "${color_cyan}#          for Raspberry Pi          #${color_reset}\n"
 printf "${color_cyan}#                                    #${color_reset}\n"
 printf "${color_cyan}#          WWW.RASPICED.COM          #${color_reset}\n"
 printf "${color_cyan}#                                    #${color_reset}\n"
-printf "${color_cyan}#  by cr_chsn1          Version 3.0  #${color_reset}\n"
+printf "${color_cyan}#  by cr_chsn1          Version 3.1  #${color_reset}\n"
 printf "${color_cyan}#                                    #${color_reset}\n"
 printf "${color_cyan}######################################${color_reset}\n"
 echo
 
-if [ "${1}" = "--install" ]; then # Routine for installing dependencies
-	printf "${color_green}### Installing dependencies ###${color_reset}\n"
+if [ "${1}" = "--install" ]; then # Routine for installing dependencies & tools
+	printf "${color_green}### Installing dependencies & tools ###${color_reset}\n"
 	echo
 	sudo apt update
 	if [ "$arch" = "aarch64" ]; then # If the OS is 64-bit, Java 11 is used.
-		sudo apt -y install cpufrequtils libarchive-zip-perl openjdk-11-jre-headless
+		sudo apt -y install cpufrequtils openjdk-11-jre-headless
 	else # If the OS is 32-bit, Java 8 is used.
-		sudo apt -y install cpufrequtils libarchive-zip-perl openjdk-8-jre-headless
+		sudo apt -y install cpufrequtils openjdk-8-jre-headless
 	fi
+	rm hwbotprime*.jar
 	wget http://downloads.hwbot.org/hwbotprime.jar # Download HWBOT Prime 0.8.3 for 32-bit systems.
 	mv hwbotprime.jar hwbotprime-0.8.3.jar	
 	wget https://s3-eu-west-1.amazonaws.com/hwbotdownloads/downloads/hwbotprime-1.0.1.jar # Download HWBOT Prime 1.0.1 for 64-bit systems.
+	rm sha256sums
+	wget https://www.raspiced.com/download/hwbot_prime_benchmark/sha256sums
 	echo
 	printf "${color_green}Everything is installed. Please restart the script for benchmarking.${color_reset}\n"
+	echo
+	exit 0
+fi
+
+if [ "${1}" = "--uninstall" ]; then # Routine for deleting tools & files
+	printf "${color_green}### Deleting tools & files ###${color_reset}\n"
+	echo
+	rm hwbotprime*.jar
+	rm sha256sums
+	rm *.hwbot
+	echo
+	printf "${color_green}Tools and files deleted.${color_reset}\n"
 	echo
 	exit 0
 fi
@@ -218,7 +237,8 @@ volt_mem=${volt_mem:5:4}
 over_voltage_sdram=$(vcgencmd get_config over_voltage_sdram) # Check config if a RAM-overvoltage-setting is set
 over_voltage_sdram=${over_voltage_sdram:18:4}
 temp_idle=$(vcgencmd measure_temp) # Reading the idle temperature w/o load
-temp_idle=${temp_idle:5:5}
+temp_idle=${temp_idle:5:7}
+temp_idle=${temp_idle:0:-2}
 echo "Voltage (VDD_CORE)....... $volt_arm V (over_voltage$over_voltage_arm)"
 echo "Voltage (V_DDR).......... $volt_mem V (over_voltage_sdram$over_voltage_sdram)"
 echo "Temperature (Idle)....... $temp_idle °C"
@@ -234,16 +254,16 @@ fi
 echo
 printf "${color_yellow}Sensor Data (2/2):${color_reset}\n"
 temp_load=$(vcgencmd measure_temp) # Reading the temperature after load
-temp_load=${temp_load:5:5}
+temp_load=${temp_load:5:7}
+temp_load=${temp_load:0:-2}
 echo "Temperature (Post-Load).. $temp_load °C"
 echo
 printf "${color_magenta}### Checksums ###${color_reset}\n"
 echo
-if [ "$arch" = "aarch64" ]; then # If OS is 64-bit, generate CRC32 checksum for HWBOT Prime.
-	checksum_benchmark=$(crc32 hwbotprime-1.0.1.jar)
-else # If OS is 32-bit, generate CRC32 checksum for HWBOT Prime.
-	checksum_benchmark=$(crc32 hwbotprime-0.8.3.jar)
-fi
-echo "Checksum (Benchmark)..... $checksum_benchmark"
-sudo cpufreq-set -g ondemand # Setting CPU gevenor back to ondemand
+printf "${color_magenta}Checksum (SHA256):${color_reset}\n"
+echo "$script_file: $script_sha256"
 echo
+printf "${color_magenta}Comparison:${color_reset}\n"
+sha256sum -c sha256sums --ignore-missing # Comparing the SHA256-checksums for script & benchmarks
+echo
+sudo cpufreq-set -g ondemand # Setting CPU gevenor back to ondemand
