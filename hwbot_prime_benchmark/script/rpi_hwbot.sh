@@ -75,6 +75,7 @@ revision_codes=(
 ["9000c1"]="Model.................... Zero W\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["920092"]="Model.................... Zero\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
 ["920093"]="Model.................... Zero\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
+["902120"]="Model.................... Zero 2 W\nRevision................. 1.0 (Code: "$revision")\nSiP...................... RP3A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 )
 
 # Setting stock clock for memory
@@ -91,7 +92,8 @@ if [ "$rpi_model" = "raspberrypi,model-abrcm,bcm2835" ] \
 elif [ "$rpi_model" = "raspberrypi,3-model-bbrcm,bcm2837" ] \
 || [ "$rpi_model" = "raspberrypi,3-compute-modulebrcm,bcm2837" ] \
 || [ "$rpi_model" = "raspberrypi,model-zerobrcm,bcm2835" ] \
-|| [ "$rpi_model" = "raspberrypi,model-zero-wbrcm,bcm2835" ]; then
+|| [ "$rpi_model" = "raspberrypi,model-zero-wbrcm,bcm2835" ] \
+|| [ "$rpi_model" = "raspberrypi,model-zero-2-wbrcm,bcm2837" ]; then
 	freq_mem_stock=450
 elif [ "$rpi_model" = "raspberrypi,3-model-a-plusbrcm,bcm2837" ] \
 || [ "$rpi_model" = "raspberrypi,3-model-b-plusbrcm,bcm2837" ]; then
@@ -102,11 +104,12 @@ elif [ "$rpi_model" = "raspberrypi,4-model-bbrcm,bcm2711" ] \
 	freq_mem_stock=1600
 fi
 
+
 printf "${color_cyan}#########################################${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
 printf "${color_cyan}#  HWBOT Prime Script for Raspberry Pi  #${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
-printf "${color_cyan}# by cr_chsn1               Version 2.7 #${color_reset}\n"
+printf "${color_cyan}# by cr_chsn1               Version 2.8 #${color_reset}\n"
 printf "${color_cyan}#########################################${color_reset}\n"
 echo
 
@@ -180,7 +183,7 @@ volt_arm=${volt_arm:5:4}
 volt_mem=$(vcgencmd measure_volts sdram_c) # Reading the current V_DDR
 volt_mem=${volt_mem:5:4}
 temp_idle=$(vcgencmd measure_temp) # Reading the idle temperature w/o load
-temp_idle=${temp_idle:5:4}
+temp_idle=${temp_idle:5:5}
 echo "Frequency (ARM).......... $freq_arm MHz (PLLB: $freq_pllb MHz)"
 echo "Frequency (Core)......... $freq_core MHz"
 echo "Frequency (RAM).......... $freq_mem_ddr MHz"
@@ -199,7 +202,7 @@ fi
 echo
 printf "${color_yellow}Sensor Status (2/2):${color_reset}\n"
 temp_load=$(vcgencmd measure_temp) # Reading the temperature after load
-temp_load=${temp_load:5:4}
+temp_load=${temp_load:5:5}
 echo "Temperature (Post-Load).. $temp_load °C"
 echo
 printf "${color_magenta}### Checksums ###${color_reset}\n"
@@ -210,4 +213,5 @@ else # If OS is 32-bit, generate CRC32 checksum for HWBOT Prime.
 	checksum_benchmark=$(crc32 hwbotprime-0.8.3.jar)
 fi
 echo "Checksum (Benchmark)..... $checksum_benchmark"
+sudo cpufreq-set -g ondemand # Setting CPU gevenor back to ondemand
 echo
