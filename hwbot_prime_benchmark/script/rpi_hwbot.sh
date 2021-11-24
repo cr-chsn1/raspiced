@@ -18,7 +18,7 @@ printf "${color_cyan}#########################################${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
 printf "${color_cyan}#  HWBOT Prime Script for Raspberry Pi  #${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
-printf "${color_cyan}# by cr_chsn1               Version 1.3 #${color_reset}\n"
+printf "${color_cyan}# by cr_chsn1               Version 1.4 #${color_reset}\n"
 printf "${color_cyan}#########################################${color_reset}\n"
 echo
 echo
@@ -35,11 +35,15 @@ if [ "${1}" = "--install" ]; then
 fi
 printf "${color_green}### Software-Information ###${color_reset}\n"
 echo
-printf "${color_green}Raspbian-Version:${color_reset}\n"
+printf "${color_green}Versions:${color_reset}\n"
 os_name=$(lsb_release -si)
 os_codename=$(lsb_release -sc)
 os_version=$(cat /etc/debian_version)
-echo $os_name $os_version "("$os_codename")"
+firmware_date=$(vcgencmd version  | grep ":")
+firmware_version=$(vcgencmd version  | grep "version")
+firmware_version=${firmware_version:8:40}
+echo "Operating system:" $os_name $os_version "("$os_codename")"
+echo "Firmware:        " $firmware_version "(" $firmware_date")"
 echo
 printf "${color_green}Linux-Kernel:${color_reset}\n"
 uname -r -v
@@ -60,16 +64,20 @@ printf "${color_yellow}Sensor Status (1/2):${color_reset}\n"
 freq_arm_org=$(vcgencmd measure_clock arm)
 freq_arm=${freq_arm_org:14:10}
 freq_arm=$(convert_to_MHz $freq_arm)
+freq_pllb=$(vcgencmd measure_clock pllb)
+freq_pllb=${freq_pllb:15:10}
+freq_pllb=$(convert_to_MHz $freq_pllb)
 volt_arm=$(vcgencmd measure_volts core)
 volt_arm=${volt_arm:5:4}
 volt_mem=$(vcgencmd measure_volts sdram_c)
 volt_mem=${volt_mem:5:4}
 temp_idle=$(vcgencmd measure_temp)
 temp_idle=${temp_idle:5:4}
-echo "Frequency (arm):	$freq_arm MHz ($freq_arm_org)"
-echo "Voltage (arm):		$volt_arm V"
-echo "Voltage (sdram):	$volt_mem V"
-echo "Temperature (idle):	$temp_idle °C"
+echo "Frequency (ARM):		$freq_arm MHz ($freq_arm_org)"
+echo "Frequency (PLLB):		$freq_pllb MHz"
+echo "Voltage (VDD_CORE):		$volt_arm V"
+echo "Voltage (V_DDR):		$volt_mem V"
+echo "Temperature (Idle):		$temp_idle °C"
 echo
 echo
 printf "${color_red}### Benchmark ###${color_reset}\n"
@@ -81,5 +89,5 @@ echo
 printf "${color_yellow}Sensor Status (2/2):${color_reset}\n"
 temp_load=$(vcgencmd measure_temp)
 temp_load=${temp_load:5:4}
-echo "Temperature (post-load):	$temp_load °C"
+echo "Temperature (Post-Load):	$temp_load °C"
 echo
