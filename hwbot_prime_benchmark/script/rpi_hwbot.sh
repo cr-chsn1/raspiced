@@ -18,7 +18,7 @@ printf "${color_cyan}#########################################${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
 printf "${color_cyan}#  HWBOT Prime Script for Raspberry Pi  #${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
-printf "${color_cyan}# by cr_chsn1               Version 1.1 #${color_reset}\n"
+printf "${color_cyan}# by cr_chsn1               Version 1.2 #${color_reset}\n"
 printf "${color_cyan}#########################################${color_reset}\n"
 echo
 echo
@@ -71,4 +71,5 @@ echo
 echo
 printf "${color_red}### Benchmark ###${color_reset}\n"
 echo
-java -jar ./hwbotprime.jar
+date_time=`date '+%Y-%m-%d_%H.%M.%S'`
+java -jar ./hwbotprime.jar --output=$date_time.hwbot
