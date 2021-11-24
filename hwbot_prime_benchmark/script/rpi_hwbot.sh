@@ -106,7 +106,7 @@ printf "${color_cyan}#########################################${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
 printf "${color_cyan}#  HWBOT Prime Script for Raspberry Pi  #${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
-printf "${color_cyan}# by cr_chsn1               Version 2.5 #${color_reset}\n"
+printf "${color_cyan}# by cr_chsn1               Version 2.6 #${color_reset}\n"
 printf "${color_cyan}#########################################${color_reset}\n"
 echo
 
@@ -115,9 +115,9 @@ if [ "${1}" = "--install" ]; then # Routine for installing dependencies
 	echo
 	sudo apt update
 	if [ "$arch" = "aarch64" ]; then # If the OS is 64-bit, Java 11 is used.
-		sudo apt -y install libarchive-zip-perl openjdk-11-jre-headless
+		sudo apt -y install cpufrequtils libarchive-zip-perl openjdk-11-jre-headless
 	else # If the OS is 32-bit, Java 8 is used.
-		sudo apt -y install libarchive-zip-perl openjdk-8-jre-headless
+		sudo apt -y install cpufrequtils libarchive-zip-perl openjdk-8-jre-headless
 	fi
 	wget http://downloads.hwbot.org/hwbotprime.jar # Download HWBOT Prime 0.8.3 for 32-bit systems.
 	mv hwbotprime.jar hwbotprime-0.8.3.jar	
@@ -154,6 +154,7 @@ printf "${color_yellow}Raspberry Pi Model:${color_reset}\n"
 echo -e "${revision_codes[$revision]}"
 echo
 printf "${color_yellow}Sensor Status (1/2):${color_reset}\n"
+sudo cpufreq-set -g performance # Setting CPU govenor to performance
 freq_arm=$(vcgencmd measure_clock arm) # Reading the current ARM frequency
 freq_arm=${freq_arm:14:10}
 freq_arm=$(convert_to_MHz $freq_arm)
