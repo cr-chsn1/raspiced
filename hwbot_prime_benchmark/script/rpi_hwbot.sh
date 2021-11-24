@@ -109,7 +109,7 @@ printf "${color_cyan}#########################################${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
 printf "${color_cyan}#  HWBOT Prime Script for Raspberry Pi  #${color_reset}\n"
 printf "${color_cyan}#                                       #${color_reset}\n"
-printf "${color_cyan}# by cr_chsn1               Version 2.8 #${color_reset}\n"
+printf "${color_cyan}# by cr_chsn1               Version 2.9 #${color_reset}\n"
 printf "${color_cyan}#########################################${color_reset}\n"
 echo
 
@@ -180,15 +180,19 @@ fi
 freq_mem_ddr="$(($freq_mem * 2))" # Setting the effective clock for DDR-RAM
 volt_arm=$(vcgencmd measure_volts core) # Reading the current VDD_CORE
 volt_arm=${volt_arm:5:4}
+over_voltage_arm=$(vcgencmd get_config over_voltage) # Check config if an ARM-overvoltage-setting is set
+over_voltage_arm==${over_voltage_arm:13:4}
 volt_mem=$(vcgencmd measure_volts sdram_c) # Reading the current V_DDR
 volt_mem=${volt_mem:5:4}
+over_voltage_sdram=$(vcgencmd get_config over_voltage_sdram) # Check config if a RAM-overvoltage-setting is set
+over_voltage_sdram=${over_voltage_sdram:18:4}
 temp_idle=$(vcgencmd measure_temp) # Reading the idle temperature w/o load
 temp_idle=${temp_idle:5:5}
 echo "Frequency (ARM).......... $freq_arm MHz (PLLB: $freq_pllb MHz)"
 echo "Frequency (Core)......... $freq_core MHz"
 echo "Frequency (RAM).......... $freq_mem_ddr MHz"
-echo "Voltage (VDD_CORE)....... $volt_arm V"
-echo "Voltage (V_DDR).......... $volt_mem V"
+echo "Voltage (VDD_CORE)....... $volt_arm V (over_voltage$over_voltage_arm)"
+echo "Voltage (V_DDR).......... $volt_mem V (over_voltage_sdram$over_voltage_sdram)"
 echo "Temperature (Idle)....... $temp_idle °C"
 echo
 printf "${color_red}### Benchmark ###${color_reset}\n"
