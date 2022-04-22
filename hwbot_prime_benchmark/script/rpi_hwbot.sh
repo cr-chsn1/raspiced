@@ -1,6 +1,9 @@
 #!/bin/bash
 clear
 
+# Version of the script
+script_version="3.2"
+
 # Script gets to know itself (plus SHA256-hashing)
 script_file="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
 script_sha256=$(sha256sum $script_file | cut -c 1-64)
@@ -70,13 +73,19 @@ revision_codes=(
 ["9020e0"]="Model.................... 3 A+\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a020d3"]="Model.................... 3 B+\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a03111"]="Model.................... 4 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["a03112"]="Model.................... 4 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["a03114"]="Model.................... 4 B\nRevision................. 1.4 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["a03115"]="Model.................... 4 B\nRevision................. 1.5 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["b03111"]="Model.................... 4 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["b03112"]="Model.................... 4 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["b03114"]="Model.................... 4 B\nRevision................. 1.4 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["b03115"]="Model.................... 4 B\nRevision................. 1.5 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["c03111"]="Model.................... 4 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["c03112"]="Model.................... 4 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["c03114"]="Model.................... 4 B\nRevision................. 1.4 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["c03115"]="Model.................... 4 B\nRevision................. 1.5 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["d03114"]="Model.................... 4 B\nRevision................. 1.4 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["d03115"]="Model.................... 4 B\nRevision................. 1.5 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["000011"]="Model.................... Compute Module 1\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["000014"]="Model.................... Compute Module 1\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
 ["900061"]="Model.................... Compute Module 1\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
@@ -87,6 +96,7 @@ revision_codes=(
 ["b03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["c03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["d03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["a03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["c03130"]="Model.................... 400\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["900092"]="Model.................... Zero\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["900093"]="Model.................... Zero\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
@@ -118,10 +128,10 @@ elif [ "$rpi_model" = "raspberrypi,3-model-a-plusbrcm,bcm2837" ] \
 	freq_mem_stock=500
 elif [ "$rpi_model" = "raspberrypi,4-model-bbrcm,bcm2711" ] \
 || [ "$rpi_model" = "raspberrypi,4-compute-modulebrcm,bcm2711" ] \
+|| [ "$rpi_model" = "raspberrypi,4-compute-module-sbrcm,bcm2711" ] \
 || [ "$rpi_model" = "raspberrypi,400brcm,bcm2711" ]; then
 	freq_mem_stock=1600
 fi
-
 
 printf "${color_cyan}######################################${color_reset}\n"
 printf "${color_cyan}#                                    #${color_reset}\n"
@@ -130,12 +140,13 @@ printf "${color_cyan}#          for Raspberry Pi          #${color_reset}\n"
 printf "${color_cyan}#                                    #${color_reset}\n"
 printf "${color_cyan}#          WWW.RASPICED.COM          #${color_reset}\n"
 printf "${color_cyan}#                                    #${color_reset}\n"
-printf "${color_cyan}#  by cr_chsn1          Version 3.1  #${color_reset}\n"
+printf "${color_cyan}#  by cr_chsn1          Version 3.2  #${color_reset}\n"
 printf "${color_cyan}#                                    #${color_reset}\n"
 printf "${color_cyan}######################################${color_reset}\n"
 echo
 
-if [ "${1}" = "--install" ]; then # Routine for installing dependencies & tools
+# Routine for installing dependencies & tools
+if [ "${1}" = "--install" ]; then
 	printf "${color_green}### Installing dependencies & tools ###${color_reset}\n"
 	echo
 	sudo apt update
@@ -146,17 +157,18 @@ if [ "${1}" = "--install" ]; then # Routine for installing dependencies & tools
 	fi
 	rm hwbotprime*.jar
 	wget http://downloads.hwbot.org/hwbotprime.jar # Download HWBOT Prime 0.8.3 for 32-bit systems.
-	mv hwbotprime.jar hwbotprime-0.8.3.jar	
+	mv hwbotprime.jar hwbotprime-0.8.3.jar
 	wget https://s3-eu-west-1.amazonaws.com/hwbotdownloads/downloads/hwbotprime-1.0.1.jar # Download HWBOT Prime 1.0.1 for 64-bit systems.
 	rm sha256sums
-	wget https://www.raspiced.com/download/hwbot_prime_benchmark/sha256sums
+	wget https://raw.githubusercontent.com/cr-chsn1/raspiced/main/hwbot_prime_benchmark/script/sha256sums
 	echo
 	printf "${color_green}Everything is installed. Please restart the script for benchmarking.${color_reset}\n"
 	echo
 	exit 0
 fi
 
-if [ "${1}" = "--uninstall" ]; then # Routine for deleting tools & files
+# Routine for deleting tools & files
+if [ "${1}" = "--uninstall" ]; then
 	printf "${color_green}### Deleting tools & files ###${color_reset}\n"
 	echo
 	rm hwbotprime*.jar
@@ -166,6 +178,26 @@ if [ "${1}" = "--uninstall" ]; then # Routine for deleting tools & files
 	printf "${color_green}Tools and files deleted.${color_reset}\n"
 	echo
 	exit 0
+fi
+
+# Routine for checking the latest version of this script
+if ! [[ `wget -S --spider https://www.raspiced.com/download/hwbot_prime_benchmark/$script_version 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then 
+	echo
+	echo "A new version of the script is available. Do you want to download it?"
+	echo "If you don't have internet-acces please select [2] No."
+	echo "[1] Yes"
+	echo "[2] No"
+	echo
+	echo "Please select your answer (1..2), followed by [ENTER]:"
+	read input
+	if (("$input" == "1")); then
+		sudo rm rpi_hwbot.sh
+		wget https://raw.githubusercontent.com/cr-chsn1/raspiced/main/hwbot_prime_benchmark/script/rpi_hwbot.sh
+		sudo chmod +x rpi_hwbot.sh
+		echo
+		echo "The latest version has been downloaded. Please restart the script."
+		exit 0
+	fi
 fi
 
 printf "${color_green}### Software-Information ###${color_reset}\n"
@@ -193,6 +225,7 @@ echo
 printf "${color_green}Java Runtime:${color_reset}\n"
 java -version # Looking for the installed Java version
 echo
+
 printf "${color_yellow}### Hardware-Information ###${color_reset}\n"
 echo
 printf "${color_yellow}Raspberry Pi Model:${color_reset}\n"
@@ -243,6 +276,7 @@ echo "Voltage (VDD_CORE)....... $volt_arm V (over_voltage$over_voltage_arm)"
 echo "Voltage (V_DDR).......... $volt_mem V (over_voltage_sdram$over_voltage_sdram)"
 echo "Temperature (Idle)....... $temp_idle °C"
 echo
+
 printf "${color_red}### Benchmark ###${color_reset}\n"
 echo
 date_time=`date '+%Y-%m-%d_%H.%M.%S'` # Creating the current time stamp
@@ -252,12 +286,14 @@ else # If OS is 32-bit, HWBOT Prime 0.8.3 is used.
 	java -jar hwbotprime-0.8.3.jar "$date_time"_"$freq_arm"arm_"$freq_core"core_"$freq_mem_ddr"mem.hwbot
 fi
 echo
+
 printf "${color_yellow}Sensor Data (2/2):${color_reset}\n"
 temp_load=$(vcgencmd measure_temp) # Reading the temperature after load
 temp_load=${temp_load:5:7}
 temp_load=${temp_load:0:-2}
 echo "Temperature (Post-Load).. $temp_load °C"
 echo
+
 printf "${color_magenta}### Checksums ###${color_reset}\n"
 echo
 printf "${color_magenta}Checksum (SHA256):${color_reset}\n"
@@ -266,4 +302,5 @@ echo
 printf "${color_magenta}Comparison:${color_reset}\n"
 sha256sum -c sha256sums --ignore-missing # Comparing the SHA256-checksums for script & benchmarks
 echo
-sudo cpufreq-set -g ondemand # Setting CPU gevenor back to ondemand
+
+sudo cpufreq-set -g ondemand # Setting CPU govenor back to ondemand
