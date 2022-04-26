@@ -2,11 +2,7 @@
 clear
 
 # Version of the script
-script_version="3.2"
-
-# Script gets to know itself (plus SHA256-hashing)
-script_file="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
-script_sha256=$(sha256sum $script_file | cut -c 1-64)
+script_version="3.3"
 
 # Bash coloring
 color_reset='\033[0m'
@@ -39,7 +35,7 @@ if [ -e /proc/device-tree/emmc2bus/dma-ranges ]; then
 	fi
 fi
 
-# Raspberry Pi Revision Codes 
+# Raspberry Pi Revision Codes
 revision=$(tr -d '\0' < /proc/cpuinfo | grep "Revision" | rev | cut -c 1-6 | rev)
 declare -A revision_codes
 revision_codes=(
@@ -133,21 +129,22 @@ elif [ "$rpi_model" = "raspberrypi,4-model-bbrcm,bcm2711" ] \
 	freq_mem_stock=1600
 fi
 
-printf "${color_cyan}######################################${color_reset}\n"
-printf "${color_cyan}#                                    #${color_reset}\n"
-printf "${color_cyan}#    HWBOT Prime Benchmark Script    #${color_reset}\n"
-printf "${color_cyan}#          for Raspberry Pi          #${color_reset}\n"
-printf "${color_cyan}#                                    #${color_reset}\n"
-printf "${color_cyan}#          WWW.RASPICED.COM          #${color_reset}\n"
-printf "${color_cyan}#                                    #${color_reset}\n"
-printf "${color_cyan}#  by cr_chsn1          Version 3.2  #${color_reset}\n"
-printf "${color_cyan}#                                    #${color_reset}\n"
-printf "${color_cyan}######################################${color_reset}\n"
+echo -e "${color_cyan}######################################"
+echo "#                                    #"
+echo "#    HWBOT Prime Benchmark Script    #"
+echo "#          for Raspberry Pi          #"
+echo "#                                    #"
+echo "#          WWW.RASPICED.COM          #"
+echo "#                                    #"
+echo "#  by cr_chsn1          Version $script_version  #"
+echo "#                                    #"
+echo -e "######################################${color_reset}"
+echo
 echo
 
 # Routine for installing dependencies & tools
 if [ "${1}" = "--install" ]; then
-	printf "${color_green}### Installing dependencies & tools ###${color_reset}\n"
+	echo -e "${color_green}### Installing dependencies & tools ###${color_reset}"
 	echo
 	sudo apt update
 	if [ "$arch" = "aarch64" ]; then # If the OS is 64-bit, Java 11 is used.
@@ -162,47 +159,50 @@ if [ "${1}" = "--install" ]; then
 	rm sha256sums
 	wget https://raw.githubusercontent.com/cr-chsn1/raspiced/main/hwbot_prime_benchmark/script/sha256sums
 	echo
-	printf "${color_green}Everything is installed. Please restart the script for benchmarking.${color_reset}\n"
+	echo -e "${color_green}Everything is installed. Please restart the script for benchmarking.${color_reset}"
 	echo
 	exit 0
 fi
 
 # Routine for deleting tools & files
 if [ "${1}" = "--uninstall" ]; then
-	printf "${color_green}### Deleting tools & files ###${color_reset}\n"
+	echo -e "${color_green}### Deleting tools & files ###${color_reset}"
 	echo
 	rm hwbotprime*.jar
 	rm sha256sums
 	rm *.hwbot
 	echo
-	printf "${color_green}Tools and files deleted.${color_reset}\n"
+	echo -e "${color_green}Tools and files deleted.${color_reset}"
 	echo
 	exit 0
 fi
 
 # Routine for checking the latest version of this script
-if ! [[ `wget -S --spider https://www.raspiced.com/download/hwbot_prime_benchmark/$script_version 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then 
+if ! [[ `wget -S --spider https://www.raspiced.com/download/hwbot_prime_benchmark/$script_version 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
 	echo
 	echo "A new version of the script is available. Do you want to download it?"
-	echo "If you don't have internet-acces please select [2] No."
+	echo "If you don't have internet-access, please select: [2] No"
+	echo
 	echo "[1] Yes"
 	echo "[2] No"
 	echo
-	echo "Please select your answer (1..2), followed by [ENTER]:"
-	read input
+	read -p "Please select your answer (1..2), followed by [ENTER]: " input
+	echo
 	if (("$input" == "1")); then
-		sudo rm rpi_hwbot.sh
+		rm rpi_hwbot.sh
+		rm sha256sums
 		wget https://raw.githubusercontent.com/cr-chsn1/raspiced/main/hwbot_prime_benchmark/script/rpi_hwbot.sh
+		wget https://raw.githubusercontent.com/cr-chsn1/raspiced/main/hwbot_prime_benchmark/script/sha256sums
 		sudo chmod +x rpi_hwbot.sh
 		echo
-		echo "The latest version has been downloaded. Please restart the script."
+		echo -e "${color_green}The latest version has been downloaded. Please restart the script.${color_reset}"
 		exit 0
 	fi
 fi
 
-printf "${color_green}### Software-Information ###${color_reset}\n"
+echo -e "${color_green}### Software-Information ###${color_reset}"
 echo
-printf "${color_green}Operating system:${color_reset}\n"
+echo -e "${color_green}Operating system:${color_reset}"
 os_name=$(lsb_release -si) # Reading the OS version
 os_codename=$(lsb_release -sc)
 os_codename=${os_codename^}
@@ -219,19 +219,20 @@ else
 fi
 echo "Firmware................. "$firmware_version "("$firmware_date")"
 echo
-printf "${color_green}Linux-Kernel:${color_reset}\n"
+echo -e "${color_green}Linux-Kernel:${color_reset}"
 uname -r -v -m # Reading the installed kernel version
 echo
-printf "${color_green}Java Runtime:${color_reset}\n"
+echo -e "${color_green}Java Runtime:${color_reset}"
 java -version # Looking for the installed Java version
 echo
-
-printf "${color_yellow}### Hardware-Information ###${color_reset}\n"
 echo
-printf "${color_yellow}Raspberry Pi Model:${color_reset}\n"
+
+echo -e "${color_yellow}### Hardware-Information ###${color_reset}"
+echo
+echo -e "${color_yellow}Raspberry Pi Model:${color_reset}"
 echo -e "${revision_codes[$revision]}"
 echo
-printf "${color_yellow}Hardware:${color_reset}\n"
+echo -e "${color_yellow}Hardware:${color_reset}"
 sudo cpufreq-set -g performance # Setting CPU govenor to performance
 freq_arm=$(vcgencmd measure_clock arm) # Reading the current ARM frequency
 freq_arm=${freq_arm:14:10}
@@ -258,9 +259,9 @@ echo "Frequency (ARM).......... $freq_arm MHz (PLLB: $freq_pllb MHz)"
 echo "Frequency (Core)......... $freq_core MHz"
 echo "Frequency (RAM).......... $freq_mem_ddr MHz"
 echo "ARM-Cores (active/total). $cores_active/$cores_total"
-echo "Memory Split CPU/GPU .... $mem_cpu/$mem_gpu"
+echo "Memory Split CPU/GPU..... $mem_cpu/$mem_gpu"
 echo
-printf "${color_yellow}Sensor Data (1/2):${color_reset}\n"
+echo -e "${color_yellow}Sensor Data (1/2):${color_reset}"
 volt_arm=$(vcgencmd measure_volts core) # Reading the current VDD_CORE
 volt_arm=${volt_arm:5:4}
 over_voltage_arm=$(vcgencmd get_config over_voltage) # Check config if an ARM-overvoltage-setting is set
@@ -276,8 +277,9 @@ echo "Voltage (VDD_CORE)....... $volt_arm V (over_voltage$over_voltage_arm)"
 echo "Voltage (V_DDR).......... $volt_mem V (over_voltage_sdram$over_voltage_sdram)"
 echo "Temperature (Idle)....... $temp_idle °C"
 echo
+echo
 
-printf "${color_red}### Benchmark ###${color_reset}\n"
+echo -e "${color_red}### Benchmark ###${color_reset}"
 echo
 date_time=`date '+%Y-%m-%d_%H.%M.%S'` # Creating the current time stamp
 if [ "$arch" = "aarch64" ]; then # If OS is 64-bit, HWBOT Prime 1.0.1 is used.
@@ -287,20 +289,38 @@ else # If OS is 32-bit, HWBOT Prime 0.8.3 is used.
 fi
 echo
 
-printf "${color_yellow}Sensor Data (2/2):${color_reset}\n"
+echo -e "${color_yellow}Sensor Data (2/2):${color_reset}"
 temp_load=$(vcgencmd measure_temp) # Reading the temperature after load
 temp_load=${temp_load:5:7}
 temp_load=${temp_load:0:-2}
 echo "Temperature (Post-Load).. $temp_load °C"
 echo
+echo
 
-printf "${color_magenta}### Checksums ###${color_reset}\n"
+# Comparing the SHA256-checksums for script & benchmarks
+echo -e "${color_magenta}### Checksums ###${color_reset}"
 echo
-printf "${color_magenta}Checksum (SHA256):${color_reset}\n"
-echo "$script_file: $script_sha256"
-echo
-printf "${color_magenta}Comparison:${color_reset}\n"
-sha256sum -c sha256sums --ignore-missing # Comparing the SHA256-checksums for script & benchmarks
-echo
+checksum_script=$(cat sha256sums | grep "rpi_hwbot.sh" | rev | cut -c 15-79 | rev)
+if [[ $(sha256sum rpi_hwbot.sh) = "$checksum_script  rpi_hwbot.sh" ]]; then
+	echo -e "Benchmark Script......... ${color_green}PASSED${color_reset}"
+else 
+	echo -e "Benchmark Script......... ${color_red}FAILED${color_reset}"
+fi
+if [ "$arch" = "aarch64" ]; then
+	checksum_hwbotprime_101=$(cat sha256sums | grep "hwbotprime-1.0.1.jar" | rev | cut -c 23-87 | rev)
+	if [[ $(sha256sum hwbotprime-1.0.1.jar) = "$checksum_hwbotprime_101  hwbotprime-1.0.1.jar" ]]; then
+		echo -e "HWBOT Prime 1.0.1........ ${color_green}PASSED${color_reset}"
+	else
+		echo -e "HWBOT Prime 1.0.1........ ${color_red}FAILED${color_reset}"
+	fi
+else
+	checksum_hwbotprime_083=$(cat sha256sums | grep "hwbotprime-0.8.3.jar" | rev | cut -c 23-87 | rev)
+	if [[ $(sha256sum hwbotprime-0.8.3.jar) = "$checksum_hwbotprime_083  hwbotprime-0.8.3.jar" ]]; then
+		echo -e "HWBOT Prime 0.8.3........ ${color_green}PASSED${color_reset}"
+	else
+		echo -e "HWBOT Prime 0.8.3........ ${color_red}FAILED${color_reset}"
+	fi
+fi
 
 sudo cpufreq-set -g ondemand # Setting CPU govenor back to ondemand
+echo
