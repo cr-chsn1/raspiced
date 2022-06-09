@@ -2,7 +2,7 @@
 clear
 
 # Version of the script
-script_version="3.3"
+script_version="3.4"
 
 # Bash coloring
 color_reset='\033[0m'
@@ -85,6 +85,7 @@ revision_codes=(
 ["000011"]="Model.................... Compute Module 1\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["000014"]="Model.................... Compute Module 1\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
 ["900061"]="Model.................... Compute Module 1\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
+["a01160"]="Model.................... Compute Module 2\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a020a0"]="Model.................... Compute Module 3\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a220a0"]="Model.................... Compute Module 3\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
 ["a02100"]="Model.................... Compute Module 3+\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
@@ -93,6 +94,9 @@ revision_codes=(
 ["c03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["d03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["a03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["b03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["c03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["d03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["c03130"]="Model.................... 400\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["900092"]="Model.................... Zero\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["900093"]="Model.................... Zero\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
@@ -111,9 +115,14 @@ if [ "$rpi_model" = "raspberrypi,model-abrcm,bcm2835" ] \
 || [ "$rpi_model" = "raspberrypi,model-b-plusbrcm,bcm2835" ] \
 || [ "$rpi_model" = "raspberrypi,2-model-bbrcm,bcm2836" ] \
 || [ "$rpi_model" = "raspberrypi,2-model-b-rev2brcm,bcm2837" ] \
-|| [ "$rpi_model" = "raspberrypi,compute-modulebrcm,bcm2835" ]; then
+|| [ "$rpi_model" = "raspberrypi,compute-modulebrcm,bcm2835" ] \
+|| [ "$rpi_model" = "raspberrypi,2-compute-modulebrcm,bcm2836" ]; then
 	freq_mem_stock=400
-elif [ "$rpi_model" = "raspberrypi,3-model-bbrcm,bcm2837" ] \
+elif [ "$rpi_model" = "kunbus,revpi-corebrcm,bcm2837brcm,bcm2836brcm,bcm2835" ] \
+|| [ "$rpi_model" = "kunbus,revpi-compactbrcm,bcm2837brcm,bcm2836" ] \
+|| [ "$rpi_model" = "kunbus,revpi-flatbrcm,bcm2837brcm,bcm2836" ] \
+|| [ "$rpi_model" = "kunbus,revpi-connectbrcm,bcm2837brcm,bcm2836" ] \
+|| [ "$rpi_model" = "raspberrypi,3-model-bbrcm,bcm2837" ] \
 || [ "$rpi_model" = "raspberrypi,3-compute-modulebrcm,bcm2837" ] \
 || [ "$rpi_model" = "raspberrypi,model-zerobrcm,bcm2835" ] \
 || [ "$rpi_model" = "raspberrypi,model-zero-wbrcm,bcm2835" ] \
@@ -122,7 +131,8 @@ elif [ "$rpi_model" = "raspberrypi,3-model-bbrcm,bcm2837" ] \
 elif [ "$rpi_model" = "raspberrypi,3-model-a-plusbrcm,bcm2837" ] \
 || [ "$rpi_model" = "raspberrypi,3-model-b-plusbrcm,bcm2837" ]; then
 	freq_mem_stock=500
-elif [ "$rpi_model" = "raspberrypi,4-model-bbrcm,bcm2711" ] \
+elif [ "$rpi_model" = "kunbus,revpi-connect-sebrcm,bcm2711" ] \
+|| [ "$rpi_model" = "raspberrypi,4-model-bbrcm,bcm2711" ] \
 || [ "$rpi_model" = "raspberrypi,4-compute-modulebrcm,bcm2711" ] \
 || [ "$rpi_model" = "raspberrypi,4-compute-module-sbrcm,bcm2711" ] \
 || [ "$rpi_model" = "raspberrypi,400brcm,bcm2711" ]; then
