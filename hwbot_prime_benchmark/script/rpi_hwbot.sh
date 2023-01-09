@@ -2,7 +2,7 @@
 clear
 
 # Version of the script
-script_version="3.4"
+script_version="3.5"
 
 # Bash coloring
 color_reset='\033[0m'
@@ -12,6 +12,9 @@ color_red='\033[0;31m'
 color_yellow='\033[0;33m'
 color_magenta='\033[0;35m'
 
+# Script get's to know itself
+script="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+
 # Function for converting frequencies Hz > MHz
 function convert_to_MHz {
     let value=$1/1000000
@@ -20,6 +23,11 @@ function convert_to_MHz {
 
 # ARM-architecture (32/64-bit)
 arch=$(uname -m)
+
+# Chekcing if SoC is a BCM2711
+if tr -d '\0' < /proc/device-tree/compatible | grep -q "bcm2711" ; then
+	bcm2711_soc=true
+fi
 
 # Checking the BCM2711-stepping (B0/C0), when running on a RPi4/CM4
 if [ -e /proc/device-tree/emmc2bus/dma-ranges ]; then
@@ -59,13 +67,13 @@ revision_codes=(
 ["a01040"]="Model.................... 2 B\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a01041"]="Model.................... 2 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a21041"]="Model.................... 2 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
-["a02042"]="Model.................... 2 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a22042"]="Model.................... 2 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
-["a02082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a22082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
-["a32082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony Japan"
-["a52082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Stadium"
-["a22083"]="Model.................... 3 B\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
+["a02042"]="Model.................... 2 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
+["a22042"]="Model.................... 2 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
+["a02082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0 (maybe B0)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
+["a22082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0 (maybe B0)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
+["a32082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0 (maybe B0)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony Japan"
+["a52082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0 (maybe B0)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Stadium"
+["a22083"]="Model.................... 3 B\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
 ["9020e0"]="Model.................... 3 A+\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a020d3"]="Model.................... 3 B+\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a03111"]="Model.................... 4 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
@@ -86,13 +94,17 @@ revision_codes=(
 ["000014"]="Model.................... Compute Module 1\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
 ["900061"]="Model.................... Compute Module 1\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a01160"]="Model.................... Compute Module 2\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a020a0"]="Model.................... Compute Module 3\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a220a0"]="Model.................... Compute Module 3\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837A1\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
+["a020a0"]="Model.................... Compute Module 3\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
+["a220a0"]="Model.................... Compute Module 3\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
 ["a02100"]="Model.................... Compute Module 3+\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["a03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["a03141"]="Model.................... Compute Module 4\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["b03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["b03141"]="Model.................... Compute Module 4\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["c03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["c03141"]="Model.................... Compute Module 4\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["d03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
+["d03141"]="Model.................... Compute Module 4\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["a03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["b03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
 ["c03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
@@ -103,7 +115,7 @@ revision_codes=(
 ["9000c1"]="Model.................... Zero W\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 ["920092"]="Model.................... Zero\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
 ["920093"]="Model.................... Zero\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
-["902120"]="Model.................... Zero 2 W\nRevision................. 1.0 (Code: "$revision")\nSiP...................... RP3A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
+["902120"]="Model.................... Zero 2 W\nRevision................. 1.0 (Code: "$revision")\nSiP...................... RP3A0-AU (BCM2710A1)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
 )
 
 # Setting stock clock for memory
@@ -213,7 +225,7 @@ fi
 echo -e "${color_green}### Software-Information ###${color_reset}"
 echo
 echo -e "${color_green}Operating system:${color_reset}"
-os_name=$(lsb_release -si) # Reading the OS version
+os_name="Raspberry Pi OS"
 os_codename=$(lsb_release -sc)
 os_codename=${os_codename^}
 os_version=$(cat /etc/debian_version)
@@ -269,7 +281,7 @@ echo "Frequency (ARM).......... $freq_arm MHz (PLLB: $freq_pllb MHz)"
 echo "Frequency (Core)......... $freq_core MHz"
 echo "Frequency (RAM).......... $freq_mem_ddr MHz"
 echo "ARM-Cores (active/total). $cores_active/$cores_total"
-echo "Memory Split CPU/GPU..... $mem_cpu/$mem_gpu"
+echo "Memory Split (CPU/GPU)... $mem_cpu/$mem_gpu"
 echo
 echo -e "${color_yellow}Sensor Data (1/2):${color_reset}"
 volt_arm=$(vcgencmd measure_volts core) # Reading the current VDD_CORE
@@ -280,12 +292,18 @@ volt_mem=$(vcgencmd measure_volts sdram_c) # Reading the current V_DDR
 volt_mem=${volt_mem:5:4}
 over_voltage_sdram=$(vcgencmd get_config over_voltage_sdram) # Check config if a RAM-overvoltage-setting is set
 over_voltage_sdram=${over_voltage_sdram:18:4}
-temp_idle=$(vcgencmd measure_temp) # Reading the idle temperature w/o load
-temp_idle=${temp_idle:5:7}
-temp_idle=${temp_idle:0:-2}
+soc_temp_idle=$(vcgencmd measure_temp) # Reading the SoC idle temperature w/o load
+soc_temp_idle=${soc_temp_idle:5:7}
+soc_temp_idle=${soc_temp_idle:0:-2}
 echo "Voltage (VDD_CORE)....... $volt_arm V (over_voltage$over_voltage_arm)"
 echo "Voltage (V_DDR).......... $volt_mem V (over_voltage_sdram$over_voltage_sdram)"
-echo "Temperature (Idle)....... $temp_idle °C"
+echo "SoC-Temperature (Idle)... $soc_temp_idle °C"
+if [ "$bcm2711_soc" = true ] ; then
+	pmic_temp_idle=$(vcgencmd measure_temp pmic) # Reading the PMIC idle temperature w/o load
+	pmic_temp_idle=${pmic_temp_idle:5:7}
+	pmic_temp_idle=${pmic_temp_idle:0:-2}
+	echo "PMIC-Temperature (Idle).. $pmic_temp_idle °C"
+fi
 echo
 echo
 
@@ -300,10 +318,16 @@ fi
 echo
 
 echo -e "${color_yellow}Sensor Data (2/2):${color_reset}"
-temp_load=$(vcgencmd measure_temp) # Reading the temperature after load
-temp_load=${temp_load:5:7}
-temp_load=${temp_load:0:-2}
-echo "Temperature (Post-Load).. $temp_load °C"
+soc_temp_load=$(vcgencmd measure_temp) # Reading the SoC temperature after load
+soc_temp_load=${soc_temp_load:5:7}
+soc_temp_load=${soc_temp_load:0:-2}
+echo "SoC-Temperature (Load)... $soc_temp_load °C"
+if [ "$bcm2711_soc" = true ] ; then
+	pmic_temp_load=$(vcgencmd measure_temp pmic) # Reading the PMIC temperature after load
+	pmic_temp_load=${pmic_temp_load:5:7}
+	pmic_temp_load=${pmic_temp_load:0:-2}
+	echo "PMIC-Temperature (Load).. $pmic_temp_load °C"
+fi
 echo
 echo
 
@@ -311,7 +335,7 @@ echo
 echo -e "${color_magenta}### Checksums ###${color_reset}"
 echo
 checksum_script=$(cat sha256sums | grep "rpi_hwbot.sh" | rev | cut -c 15-79 | rev)
-if [[ $(sha256sum rpi_hwbot.sh) = "$checksum_script  rpi_hwbot.sh" ]]; then
+if [[ $(sha256sum $script) = "$checksum_script  rpi_hwbot.sh" ]]; then
 	echo -e "Benchmark Script......... ${color_green}PASSED${color_reset}"
 else 
 	echo -e "Benchmark Script......... ${color_red}FAILED${color_reset}"
