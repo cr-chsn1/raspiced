@@ -2,7 +2,7 @@
 clear
 
 # Version of the script
-script_version="3.5"
+script_version="3.6"
 
 # Bash coloring
 color_reset='\033[0m'
@@ -47,75 +47,75 @@ fi
 revision=$(tr -d '\0' < /proc/cpuinfo | grep "Revision" | rev | cut -c 1-6 | rev)
 declare -A revision_codes
 revision_codes=(
-["000007"]="Model.................... 1 A\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Egoman"
-["000008"]="Model.................... 1 A\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["000009"]="Model.................... 1 A\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Qisda"
-["000002"]="Model.................... 1 B\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Egoman"
-["000003"]="Model.................... 1 B\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Egoman"
-["000004"]="Model.................... 1 B\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["000005"]="Model.................... 1 B\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Qisda"
-["000006"]="Model.................... 1 B\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Egoman"
-["00000d"]="Model.................... 1 B\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Egoman"
-["00000e"]="Model.................... 1 B\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["00000f"]="Model.................... 1 B\nRevision................. 2.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Egoman"
-["000012"]="Model.................... 1 A+\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["000015"]="Model.................... 1 A+\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 256/512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
-["900021"]="Model.................... 1 A+\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["000010"]="Model.................... 1 B+\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["000013"]="Model.................... 1 B+\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
-["900032"]="Model.................... 1 B+\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a01040"]="Model.................... 2 B\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a01041"]="Model.................... 2 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a21041"]="Model.................... 2 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
-["a02042"]="Model.................... 2 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a22042"]="Model.................... 2 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
-["a02082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0 (maybe B0)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a22082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0 (maybe B0)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
-["a32082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0 (maybe B0)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony Japan"
-["a52082"]="Model.................... 3 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2837A0 (maybe B0)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Stadium"
-["a22083"]="Model.................... 3 B\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
-["9020e0"]="Model.................... 3 A+\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a020d3"]="Model.................... 3 B+\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a03111"]="Model.................... 4 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["a03112"]="Model.................... 4 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["a03114"]="Model.................... 4 B\nRevision................. 1.4 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["a03115"]="Model.................... 4 B\nRevision................. 1.5 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["b03111"]="Model.................... 4 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["b03112"]="Model.................... 4 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["b03114"]="Model.................... 4 B\nRevision................. 1.4 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["b03115"]="Model.................... 4 B\nRevision................. 1.5 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["c03111"]="Model.................... 4 B\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["c03112"]="Model.................... 4 B\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["c03114"]="Model.................... 4 B\nRevision................. 1.4 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["c03115"]="Model.................... 4 B\nRevision................. 1.5 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["d03114"]="Model.................... 4 B\nRevision................. 1.4 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["d03115"]="Model.................... 4 B\nRevision................. 1.5 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["000011"]="Model.................... Compute Module 1\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["000014"]="Model.................... Compute Module 1\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
-["900061"]="Model.................... Compute Module 1\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a01160"]="Model.................... Compute Module 2\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2836\nCPU...................... Cortex-A7\nArchitecture............. ARMv7\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a020a0"]="Model.................... Compute Module 3\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a220a0"]="Model.................... Compute Module 3\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837A0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Embest"
-["a02100"]="Model.................... Compute Module 3+\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2837B0\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["a03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["a03141"]="Model.................... Compute Module 4\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["b03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["b03141"]="Model.................... Compute Module 4\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["c03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["c03141"]="Model.................... Compute Module 4\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["d03140"]="Model.................... Compute Module 4\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["d03141"]="Model.................... Compute Module 4\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["a03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 1 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["b03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 2 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["c03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["d03150"]="Model.................... Compute Module 4S\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 8 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["c03130"]="Model.................... 400\nRevision................. 1.0 (Code: "$revision")\nSoC...................... BCM2711"$bcm2711_stepping"\nCPU...................... Cortex-A72\nArchitecture............. ARMv8\nMemory................... 4 GB LPDDR4-SDRAM\nManufacturer............. Sony UK"
-["900092"]="Model.................... Zero\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["900093"]="Model.................... Zero\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["9000c1"]="Model.................... Zero W\nRevision................. 1.1 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
-["920092"]="Model.................... Zero\nRevision................. 1.2 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
-["920093"]="Model.................... Zero\nRevision................. 1.3 (Code: "$revision")\nSoC...................... BCM2835\nCPU...................... ARM1176JZ(F)-S\nArchitecture............. ARMv6\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Embest"
-["902120"]="Model.................... Zero 2 W\nRevision................. 1.0 (Code: "$revision")\nSiP...................... RP3A0-AU (BCM2710A1)\nCPU...................... Cortex-A53\nArchitecture............. ARMv8\nMemory................... 512 MB LPDDR2-SDRAM\nManufacturer............. Sony UK"
+["000007"]="Model............................... 1 A\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Egoman"
+["000008"]="Model............................... 1 A\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["000009"]="Model............................... 1 A\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Qisda"
+["000002"]="Model............................... 1 B\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Egoman"
+["000003"]="Model............................... 1 B\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Egoman"
+["000004"]="Model............................... 1 B\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["000005"]="Model............................... 1 B\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Qisda"
+["000006"]="Model............................... 1 B\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Egoman"
+["00000d"]="Model............................... 1 B\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Egoman"
+["00000e"]="Model............................... 1 B\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["00000f"]="Model............................... 1 B\nRevision............................ 2.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Egoman"
+["000012"]="Model............................... 1 A+\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["000015"]="Model............................... 1 A+\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 256/512 MB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["900021"]="Model............................... 1 A+\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["000010"]="Model............................... 1 B+\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["000013"]="Model............................... 1 B+\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["900032"]="Model............................... 1 B+\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a01040"]="Model............................... 2 B\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2836\nCPU................................. Cortex-A7\nArchitecture........................ ARMv7\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a01041"]="Model............................... 2 B\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2836\nCPU................................. Cortex-A7\nArchitecture........................ ARMv7\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a21041"]="Model............................... 2 B\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2836\nCPU................................. Cortex-A7\nArchitecture........................ ARMv7\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["a02042"]="Model............................... 2 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2837A0\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a22042"]="Model............................... 2 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2837A0\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["a02082"]="Model............................... 3 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2837A0 (maybe B0)\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a22082"]="Model............................... 3 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2837A0 (maybe B0)\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["a32082"]="Model............................... 3 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2837A0 (maybe B0)\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony Japan"
+["a52082"]="Model............................... 3 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2837A0 (maybe B0)\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Stadium"
+["a22083"]="Model............................... 3 B\nRevision............................ 1.3 (Code: "$revision")\nSoC................................. BCM2837B0\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["9020e0"]="Model............................... 3 A+\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2837B0\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a020d3"]="Model............................... 3 B+\nRevision............................ 1.3 (Code: "$revision")\nSoC................................. BCM2837B0\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a03111"]="Model............................... 4 B\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["a03112"]="Model............................... 4 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["a03114"]="Model............................... 4 B\nRevision............................ 1.4 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["a03115"]="Model............................... 4 B\nRevision............................ 1.5 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["b03111"]="Model............................... 4 B\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 2 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["b03112"]="Model............................... 4 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 2 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["b03114"]="Model............................... 4 B\nRevision............................ 1.4 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 2 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["b03115"]="Model............................... 4 B\nRevision............................ 1.5 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 2 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["c03111"]="Model............................... 4 B\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 4 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["c03112"]="Model............................... 4 B\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 4 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["c03114"]="Model............................... 4 B\nRevision............................ 1.4 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 4 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["c03115"]="Model............................... 4 B\nRevision............................ 1.5 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 4 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["d03114"]="Model............................... 4 B\nRevision............................ 1.4 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 8 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["d03115"]="Model............................... 4 B\nRevision............................ 1.5 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 8 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["000011"]="Model............................... Compute Module 1\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["000014"]="Model............................... Compute Module 1\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["900061"]="Model............................... Compute Module 1\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a01160"]="Model............................... Compute Module 2\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2836\nCPU................................. Cortex-A7\nArchitecture........................ ARMv7\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a020a0"]="Model............................... Compute Module 3\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2837A0\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a220a0"]="Model............................... Compute Module 3\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2837A0\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["a02100"]="Model............................... Compute Module 3+\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2837B0\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["a03140"]="Model............................... Compute Module 4\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["a03141"]="Model............................... Compute Module 4\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["b03140"]="Model............................... Compute Module 4\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 2 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["b03141"]="Model............................... Compute Module 4\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 2 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["c03140"]="Model............................... Compute Module 4\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 4 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["c03141"]="Model............................... Compute Module 4\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 4 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["d03140"]="Model............................... Compute Module 4\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 8 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["d03141"]="Model............................... Compute Module 4\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 8 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["a03150"]="Model............................... Compute Module 4S\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 1 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["b03150"]="Model............................... Compute Module 4S\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 2 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["c03150"]="Model............................... Compute Module 4S\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 4 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["d03150"]="Model............................... Compute Module 4S\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 8 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["c03130"]="Model............................... 400\nRevision............................ 1.0 (Code: "$revision")\nSoC................................. BCM2711"$bcm2711_stepping"\nCPU................................. Cortex-A72\nArchitecture........................ ARMv8\nMemory.............................. 4 GB LPDDR4-SDRAM\nManufacturer........................ Sony UK"
+["900092"]="Model............................... Zero\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["900093"]="Model............................... Zero\nRevision............................ 1.3 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["9000c1"]="Model............................... Zero W\nRevision............................ 1.1 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
+["920092"]="Model............................... Zero\nRevision............................ 1.2 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["920093"]="Model............................... Zero\nRevision............................ 1.3 (Code: "$revision")\nSoC................................. BCM2835\nCPU................................. ARM1176JZ(F)-S\nArchitecture........................ ARMv6\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Embest"
+["902120"]="Model............................... Zero 2 W\nRevision............................ 1.0 (Code: "$revision")\nSiP................................. RP3A0-AU (BCM2710A1)\nCPU................................. Cortex-A53\nArchitecture........................ ARMv8\nMemory.............................. 512 MB LPDDR2-SDRAM\nManufacturer........................ Sony UK"
 )
 
 # Setting stock clock for memory
@@ -233,13 +233,13 @@ firmware_date=$(vcgencmd version  | grep ":") # Reading the installed firmware v
 firmware_date=${firmware_date:0:20}
 firmware_version=$(vcgencmd version  | grep "version")
 firmware_version=${firmware_version:8:40}
-echo "Name, Version............ "$os_name $os_version "("$os_codename")"
+echo "Name, Version....................... "$os_name $os_version "("$os_codename")"
 if [ "$arch" = "aarch64" ]; then
-	echo "Architecture............. 64-bit"
+	echo "Architecture........................ 64-bit"
 else
-	echo "Architecture............. 32-bit"
+	echo "Architecture........................ 32-bit"
 fi
-echo "Firmware................. "$firmware_version "("$firmware_date")"
+echo "Firmware............................ "$firmware_version "("$firmware_date")"
 echo
 echo -e "${color_green}Linux-Kernel:${color_reset}"
 uname -r -v -m # Reading the installed kernel version
@@ -277,11 +277,11 @@ mem_cpu=$(vcgencmd get_mem arm) # Reading the memory reserved for CPU
 mem_cpu=${mem_cpu:4:5}
 mem_gpu=$(vcgencmd get_mem gpu) # Reading the memory reserved for GPU
 mem_gpu=${mem_gpu:4:5}
-echo "Frequency (ARM).......... $freq_arm MHz (PLLB: $freq_pllb MHz)"
-echo "Frequency (Core)......... $freq_core MHz"
-echo "Frequency (RAM).......... $freq_mem_ddr MHz"
-echo "ARM-Cores (active/total). $cores_active/$cores_total"
-echo "Memory Split (CPU/GPU)... $mem_cpu/$mem_gpu"
+echo "Frequency (ARM)..................... $freq_arm MHz (PLLB: $freq_pllb MHz)"
+echo "Frequency (Core).................... $freq_core MHz"
+echo "Frequency (RAM)..................... $freq_mem_ddr MHz"
+echo "ARM-Cores (active/total)............ $cores_active/$cores_total"
+echo "Memory Split (CPU/GPU).............. $mem_cpu/$mem_gpu"
 echo
 echo -e "${color_yellow}Sensor Data (1/2):${color_reset}"
 volt_arm=$(vcgencmd measure_volts core) # Reading the current VDD_CORE
@@ -295,14 +295,14 @@ over_voltage_sdram=${over_voltage_sdram:18:4}
 soc_temp_idle=$(vcgencmd measure_temp) # Reading the SoC idle temperature w/o load
 soc_temp_idle=${soc_temp_idle:5:7}
 soc_temp_idle=${soc_temp_idle:0:-2}
-echo "Voltage (VDD_CORE)....... $volt_arm V (over_voltage$over_voltage_arm)"
-echo "Voltage (V_DDR).......... $volt_mem V (over_voltage_sdram$over_voltage_sdram)"
-echo "SoC-Temperature (Idle)... $soc_temp_idle °C"
+echo "Voltage (VDD_CORE).................. $volt_arm V (over_voltage$over_voltage_arm)"
+echo "Voltage (V_DDR)..................... $volt_mem V (over_voltage_sdram$over_voltage_sdram)"
+echo "SoC-Temperature (Idle).............. $soc_temp_idle °C"
 if [ "$bcm2711_soc" = true ] ; then
 	pmic_temp_idle=$(vcgencmd measure_temp pmic) # Reading the PMIC idle temperature w/o load
 	pmic_temp_idle=${pmic_temp_idle:5:7}
 	pmic_temp_idle=${pmic_temp_idle:0:-2}
-	echo "PMIC-Temperature (Idle).. $pmic_temp_idle °C"
+	echo "PMIC-Temperature (Idle)............. $pmic_temp_idle °C"
 fi
 echo
 echo
@@ -316,17 +316,65 @@ else # If OS is 32-bit, HWBOT Prime 0.8.3 is used.
 	java -jar hwbotprime-0.8.3.jar "$date_time"_"$freq_arm"arm_"$freq_core"core_"$freq_mem_ddr"mem.hwbot
 fi
 echo
+echo
 
 echo -e "${color_yellow}Sensor Data (2/2):${color_reset}"
 soc_temp_load=$(vcgencmd measure_temp) # Reading the SoC temperature after load
 soc_temp_load=${soc_temp_load:5:7}
 soc_temp_load=${soc_temp_load:0:-2}
-echo "SoC-Temperature (Load)... $soc_temp_load °C"
+echo "SoC-Temperature (Load).............. $soc_temp_load °C"
 if [ "$bcm2711_soc" = true ] ; then
 	pmic_temp_load=$(vcgencmd measure_temp pmic) # Reading the PMIC temperature after load
 	pmic_temp_load=${pmic_temp_load:5:7}
 	pmic_temp_load=${pmic_temp_load:0:-2}
-	echo "PMIC-Temperature (Load).. $pmic_temp_load °C"
+	echo "PMIC-Temperature (Load)............. $pmic_temp_load °C"
+fi
+echo
+
+# Detection if there are any frequency/voltage problems
+echo -e "${color_yellow}Frequency & voltage monitoring:${color_reset}"
+throttled_hex=$(vcgencmd get_throttled)
+throttled_hex=${throttled_hex:12:20}
+throttled_dec=$((16#$throttled_hex))
+if [ $(( 1 & $throttled_dec )) \> 0 ] ; then 
+	echo -e "Under-voltage detected.............. ${color_red}YES${color_reset}"
+else 
+	echo -e "Under-voltage detected.............. ${color_green}NO${color_reset}"
+fi
+if [ $(( 2 & $throttled_dec )) \> 0 ] ; then 
+	echo -e "ARM frequency has been capped....... ${color_red}YES${color_reset}"
+else 
+	echo -e "ARM frequency has been capped....... ${color_green}NO${color_reset}"
+fi
+if [ $(( 4 & $throttled_dec )) \> 0 ] ; then 
+	echo -e "Currently throttled................. ${color_red}YES${color_reset}"
+else 
+	echo -e "Currently throttled................. ${color_green}NO${color_reset}"
+fi
+if [ $(( 8 & $throttled_dec )) \> 0 ] ; then 
+	echo -e "Soft temperature limit is active.... ${color_red}YES${color_reset}"
+else 
+	echo -e "Soft temperature limit is active.... ${color_green}NO${color_reset}"
+fi
+if [ $(( 65536 & $throttled_dec )) \> 0 ] ; then 
+	echo -e "Under-voltage has occurred.......... ${color_red}YES${color_reset}"
+else 
+	echo -e "Under-voltage has occurred.......... ${color_green}NO${color_reset}"
+fi
+if [ $(( 131072 & $throttled_dec )) \> 0 ] ; then 
+	echo -e "ARM frequency capping has occurred.. ${color_red}YES${color_reset}"
+else 
+	echo -e "ARM frequency capping has occurred.. ${color_green}NO${color_reset}"
+fi
+if [ $(( 262144 & $throttled_dec )) \> 0 ] ; then 
+	echo -e "Throttling has occurred............. ${color_red}YES${color_reset}"
+else 
+	echo -e "Throttling has occurred............. ${color_green}NO${color_reset}"
+fi
+if [ $(( 524288 & $throttled_dec )) \> 0 ] ; then 
+	echo -e "Soft temperature limit has occurred. ${color_red}YES${color_reset}"
+else 
+	echo -e "Soft temperature limit has occurred. ${color_green}NO${color_reset}"
 fi
 echo
 echo
@@ -336,23 +384,23 @@ echo -e "${color_magenta}### Checksums ###${color_reset}"
 echo
 checksum_script=$(cat sha256sums | grep "rpi_hwbot.sh" | rev | cut -c 15-79 | rev)
 if [[ $(sha256sum $script) = "$checksum_script  rpi_hwbot.sh" ]]; then
-	echo -e "Benchmark Script......... ${color_green}PASSED${color_reset}"
+	echo -e "Benchmark Script.................... ${color_green}PASSED${color_reset}"
 else 
-	echo -e "Benchmark Script......... ${color_red}FAILED${color_reset}"
+	echo -e "Benchmark Script.................... ${color_red}FAILED${color_reset}"
 fi
 if [ "$arch" = "aarch64" ]; then
 	checksum_hwbotprime_101=$(cat sha256sums | grep "hwbotprime-1.0.1.jar" | rev | cut -c 23-87 | rev)
 	if [[ $(sha256sum hwbotprime-1.0.1.jar) = "$checksum_hwbotprime_101  hwbotprime-1.0.1.jar" ]]; then
-		echo -e "HWBOT Prime 1.0.1........ ${color_green}PASSED${color_reset}"
+		echo -e "HWBOT Prime 1.0.1................... ${color_green}PASSED${color_reset}"
 	else
-		echo -e "HWBOT Prime 1.0.1........ ${color_red}FAILED${color_reset}"
+		echo -e "HWBOT Prime 1.0.1................... ${color_red}FAILED${color_reset}"
 	fi
 else
 	checksum_hwbotprime_083=$(cat sha256sums | grep "hwbotprime-0.8.3.jar" | rev | cut -c 23-87 | rev)
 	if [[ $(sha256sum hwbotprime-0.8.3.jar) = "$checksum_hwbotprime_083  hwbotprime-0.8.3.jar" ]]; then
-		echo -e "HWBOT Prime 0.8.3........ ${color_green}PASSED${color_reset}"
+		echo -e "HWBOT Prime 0.8.3................... ${color_green}PASSED${color_reset}"
 	else
-		echo -e "HWBOT Prime 0.8.3........ ${color_red}FAILED${color_reset}"
+		echo -e "HWBOT Prime 0.8.3................... ${color_red}FAILED${color_reset}"
 	fi
 fi
 
