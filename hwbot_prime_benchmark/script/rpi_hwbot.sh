@@ -2,7 +2,7 @@
 clear
 
 # Version of the script
-script_version="3.8"
+script_version="3.9"
 
 # Bash coloring
 color_reset='\033[0m'
@@ -190,11 +190,15 @@ fi
 if [ "${1}" = "--install" ]; then
 	echo -e "${color_green}### Installing dependencies & tools ###${color_reset}"
 	echo
+	sudo apt -y remove ca-certificates-java
+	sudo su -c "echo 'deb http://raspbian.raspberrypi.com/raspbian/ buster main contrib non-free rpi' >> /etc/apt/sources.list"
 	sudo apt update
 	if [[ $arch -eq 64 && $os_major_version -lt 12 ]]; then # If the OS is 64-bit, Java 11 is used.
-		sudo apt -y install cpufrequtils openjdk-11-jre-headless
+		sudo apt -y install cpufrequtils
+		sudo apt -y install -t buster openjdk-11-jre-headless ca-certificates-java
 	else # If the OS is 32-bit, Java 8 is used.
-		sudo apt -y install cpufrequtils openjdk-8-jre-headless
+		sudo apt -y install cpufrequtils
+		sudo apt -y install -t buster openjdk-8-jre-headless ca-certificates-java
 	fi
 	rm hwbotprime*.jar
 	wget http://downloads.hwbot.org/hwbotprime.jar # Download HWBOT Prime 0.8.3 for 32-bit systems.
@@ -331,12 +335,14 @@ echo
 
 echo -e "${color_red}### Benchmark ###${color_reset}"
 echo
+pinctrl FAN_PWM op dl # Setting the fan to 100 %
 date_time=`date '+%Y-%m-%d_%H.%M.%S'` # Creating the current time stamp
 if [[ $arch -eq 64 ]]; then # If OS is 64-bit, HWBOT Prime 1.0.1 is used.
 	java -jar hwbotprime-1.0.1.jar "$date_time"_"$freq_arm"arm_"$freq_core"core_"$freq_mem_ddr"mem.hwbot
 else # If OS is 32-bit, HWBOT Prime 0.8.3 is used.
 	java -jar hwbotprime-0.8.3.jar "$date_time"_"$freq_arm"arm_"$freq_core"core_"$freq_mem_ddr"mem.hwbot
 fi
+pinctrl FAN_PWM a0 # Firemware takes back control of the fan
 echo
 echo
 
